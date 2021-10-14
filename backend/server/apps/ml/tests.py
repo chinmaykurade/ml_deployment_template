@@ -3,6 +3,7 @@ import inspect
 
 from apps.ml.registry import MLRegistry
 from apps.ml.spiral_classifier.random_forest import RandomForestClassifier
+from apps.ml.spiral_classifier.extra_trees import ExtraTreesClassifier
 
 class MLTests(TestCase):
     def test_rf_algorithm(self):
@@ -15,6 +16,18 @@ class MLTests(TestCase):
         self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
         self.assertEqual(1, response['label'])
+
+    def test_et_algorithm(self):
+        input_data = {
+            "x1": 0.5,
+            "x2": 0.8,
+        }
+        my_alg = ExtraTreesClassifier()
+        response = my_alg.compute_prediction(input_data)
+        self.assertEqual('OK', response['status'])
+        self.assertTrue('label' in response)
+        self.assertEqual(1, response['label'])
+
 
     def test_registry(self):
         registry = MLRegistry()
